@@ -1,37 +1,50 @@
-/// <reference types="cypress" />
+///<reference types = "cypress"/>
 
-describe('tranverse method',function(){
-
-    // sibling methods [parent element to child element .children() then siblings .first() .last() .perv() .next()]
-    it('To get the first DOM element within elements, use the .first() command.',function(){
+describe('verify travers method',function(){
+    beforeEach(function(){
         cy.visit('https://webdriveruniversity.com/Data-Table/index.html')
-        cy.get('.traversal-food-list').children().first().should('have.text','Fruits')
     })
 
-    it('To get the last DOM element within elements, use the .last() command.',function(){
-        cy.visit('https://webdriveruniversity.com/Data-Table/index.html')
-        cy.get('.traversal-food-list').children().last().should('have.text','Lentils')
+    it('verify first()',function(){
+        cy.get('.traversal-food-list').children().should('have.length',11)
+        cy.get('.traversal-food-list').children().first()
+
     })
 
-    it('To get a DOM element at a specific index, use the .eq() command.',function(){
-        cy.visit('https://webdriveruniversity.com/Data-Table/index.html')
-        cy.get('.traversal-food-list').children().eq(2).should('have.text',"Banana")
+    
+    it('verify first()',function(){
+        cy.get('#coffee').should('have.text','Coffee')
     })
 
-    it('To get children of DOM elements, use the .children() command.',function(){
-        cy.visit('https://webdriveruniversity.com/Data-Table/index.html')
-        cy.get('.traversal-drinks-list').children().should('have.length',5)
-    })
-    it('To get the previous sibling DOM element within elements, use the .prev() command.',function(){
-        cy.visit('https://webdriveruniversity.com/Data-Table/index.html') 
-        cy.get('#milk').prev().should('have.text',"Tea")
-    })
-    it('To get the previous sibling DOM element within elements, use the .next() command.',function(){
-        cy.visit('https://webdriveruniversity.com/Data-Table/index.html') 
-        cy.get('#milk').next().should('have.text',"Espresso")
+    it('verify first()',function(){
+        cy.get('#coffee').then(function(el){
+            // cy.log(el)
+           cy.log( el.text())
+           expect(el.text()).to.eq('Coffee')
+        })
     })
 
+    it('verify last()',function(){
+        let li = ['Coffee','Tea','Milk','Espresso','Sugar']
+        // cy.get('.traversal-food-list').children().last()
+        cy.get('.traversal-drinks-list').children().each(function(el,index,arr){
+            cy.log(el.text())
+            expect(el.text()).to.eq(li[index])
+        })
+    })
 
+    it('verify next()',function(){
+        cy.get('#veggie').next().should('have.text','Asparagus')
+    })
+
+    it.only('verify prev()',function(){
+        cy.get('#veggie').prev().should('have.text','Figs')
+        // cy.screenshot()
+        cy.title().should('contain','WebDriver | Data Tables')
+        cy.reload()
+    })
+
+    
 
 
 
